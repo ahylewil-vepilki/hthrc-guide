@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华体会 · 知识库概览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            line-height: 1.7;
+            padding: 2rem 1rem;
+        }
+
+        .page-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* header / title */
+        .intro-header {
+            margin-bottom: 2.8rem;
+            text-align: center;
+        }
+
+        .intro-header h1 {
+            font-size: 2.2rem;
+            font-weight: 550;
+            letter-spacing: 1px;
+            color: #111827;
+            margin-bottom: 0.6rem;
+        }
+
+        .intro-header .subhead {
+            font-size: 1rem;
+            color: #5b657b;
+            border-top: 1px solid #d1d5db;
+            display: inline-block;
+            padding-top: 0.8rem;
+        }
+
+        /* 卡片通用 */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e6ed;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.04);
+            padding: 1.8rem 2rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .card + .card {
+            margin-top: 1.8rem;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 550;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            border-left: 4px solid #3b82f6;
+            padding-left: 0.9rem;
+        }
+
+        .card p {
+            margin-bottom: 0.9rem;
+            color: #374151;
+        }
+
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 目录感布局：两列网格 */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin-top: 1.2rem;
+        }
+
+        .directory-grid .card {
+            margin-top: 0;
+        }
+
+        .entry-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .entry-list li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #edf0f5;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .entry-list li:last-child {
+            border-bottom: none;
+        }
+
+        .entry-list .label {
+            font-weight: 470;
+            color: #3b82f6;
+            min-width: 5.8rem;
+        }
+
+        .entry-list .desc {
+            color: #4b5563;
+        }
+
+        .entry-list .tag {
+            background: #eef2f7;
+            border-radius: 20px;
+            padding: 0.1rem 0.9rem;
+            font-size: 0.75rem;
+            color: #374151;
+            margin-left: 0.6rem;
+        }
+
+        /* 提示区 */
+        .hint-box {
+            background: #faf9fe;
+            border: 1px solid #dbe2ef;
+            border-radius: 18px;
+            padding: 1.5rem 2rem;
+            margin-top: 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .hint-box .hint-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .hint-box .hint-content {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .hint-box .hint-content strong {
+            color: #1e3a5f;
+        }
+
+        .hint-box .hint-content a {
+            color: #2563eb;
+            text-decoration: none;
+            border-bottom: 1px dotted #b3c9f0;
+        }
+
+        .hint-box .hint-content a:hover {
+            border-bottom: 1px solid #2563eb;
+        }
+
+        /* 相关信息区——FAQ 摘要 */
+        .faq-mini {
+            margin-top: 2rem;
+        }
+
+        .faq-mini details {
+            border-bottom: 1px solid #e2e6ed;
+            padding: 0.8rem 0;
+        }
+
+        .faq-mini details:first-of-type {
+            border-top: 1px solid #e2e6ed;
+        }
+
+        .faq-mini summary {
+            font-weight: 490;
+            cursor: pointer;
+            color: #1f2937;
+            padding: 0.25rem 0;
+        }
+
+        .faq-mini summary::-webkit-details-marker {
+            color: #94a3b8;
+        }
+
+        .faq-mini .answer {
+            margin: 0.6rem 0 0.2rem 1.2rem;
+            color: #4b5c74;
+            font-size: 0.95rem;
+        }
+
+        /* footer */
+        .site-footer {
+            margin-top: 3.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #d7dce5;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #687385;
+        }
+
+        .site-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式 */
+        @media (max-width: 680px) {
+            body { padding: 1.2rem 0.8rem; }
+            .intro-header h1 { font-size: 1.7rem; }
+            .directory-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .card { padding: 1.4rem 1.2rem; }
+            .hint-box { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrap">
+
+    <!-- hero / 标题区 -->
+    <div class="intro-header">
+        <h1>华体会 · 知识库入口</h1>
+        <div class="subhead">快速识别平台用途 · 目录式信息结构</div>
+    </div>
+
+    <!-- 说明区：一句话定位 + 背景 -->
+    <div class="card">
+        <h2>关于这个站点</h2>
+        <p>
+            <a href="https://hthrc.com.cn" style="color:#2563eb; text-decoration:none; border-bottom:1px dotted #a5c2f0;">华体会</a> 是一个以内容聚合与信息服务为导向的网站。
+            初次访问时，用户通常希望快速判断：这个网站提供什么？我能在这里做什么？
+            本页以知识库式目录帮助新访客建立认知，无需跳转即可了解主要板块与用途。
+        </p>
+        <p>
+            以下分区展示了网站目前已开放或重点建设的内容方向，每个条目代表一类公开信息或可操作的入口。
+            整体结构偏向简洁，便于后续扩展与维护。
+        </p>
+    </div>
+
+    <!-- 目录感布局：特色卡片 + 场景模块 (网格) -->
+    <div class="directory-grid">
+        <!-- 左侧：特点/分类目录 -->
+        <div class="card">
+            <h2>📋 内容分类</h2>
+            <ul class="entry-list">
+                <li><span class="label">行业观察</span><span class="desc">市场动态 · 趋势笔记</span><span class="tag">持续更新</span></li>
+                <li><span class="label">使用指南</span><span class="desc">功能说明 · 操作步骤</span><span class="tag">入门</span></li>
+                <li><span class="label">常见问题</span><span class="desc">问答摘要 · 自助排查</span><span class="tag">FAQ</span></li>
+                <li><span class="label">更新日志</span><span class="desc">版本记录 · 变化说明</span><span class="tag">历史</span></li>
+                <li><span class="label">资源索引</span><span class="desc">工具链接 · 文档汇总</span><span class="tag">外部</span></li>
+            </ul>
+            <p style="margin-top:1rem; font-size:0.9rem; color:#6b7a93;">
+                每个分类下都包含数篇独立文章或链接，保持信息可检索。
+            </p>
+        </div>
+
+        <!-- 右侧：使用场景 -->
+        <div class="card">
+            <h2>📌 典型场景</h2>
+            <p><strong>场景一 · 快速了解服务范围</strong><br>
+            新用户通过「内容分类」扫视现有板块，判断是否匹配自身需求。例如查看「行业观察」了解平台关注领域。</p>
+            <p><strong>场景二 · 自助解决问题</strong><br>
+            遇到操作疑问时，优先查阅「常见问题」与「使用指南」，多数情况无需额外联系支持。</p>
+            <p><strong>场景三 · 持续跟踪变化</strong><br>
+            关注「更新日志」可获知功能迭代与内容调整，适合长期使用的访客。</p>
+        </div>
+    </div>
+
+    <!-- 提示区：导航建议 + 链接自然植入 -->
+    <div class="hint-box">
+        <div class="hint-icon">💡</div>
+        <div class="hint-content">
+            <strong>提示：</strong>
+            如果你正在寻找某一类具体信息，建议先浏览上方分类卡片。例如想了解平台背景，可前往「行业观察」；
+            若需要操作指引，直接查阅「使用指南」。所有内容均围绕
+            <a href="https://hthrc.com.cn">华体会</a> 提供的服务展开，页面结构保持低频更新。
+        </div>
+    </div>
+
+    <!-- 相关信息区：FAQ 摘要（自然叙述，不堆砌） -->
+    <div class="card faq-mini">
+        <h2>❓ 常见疑问摘要</h2>
+
+        <details>
+            <summary>这个网站是否需要注册？</summary>
+            <div class="answer">大部分公开内容无需注册即可浏览。部分互动功能（如评论、收藏）未来视情况开放。最新安排以站内说明为准。</div>
+        </details>
+        <details>
+            <summary>信息更新频率如何？</summary>
+            <div class="answer">行业观察与使用指南大约每周补充新内容；常见问题与资源索引按需修订。首页知识库入口本身只做结构性调整，不频繁变动。</div>
+        </details>
+        <details>
+            <summary>我可以通过什么方式反馈问题？</summary>
+            <div class="answer">目前可以通过站内「常见问题」下的反馈通道提交建议。直接联系维护团队的方式会在后续版本中补充说明。</div>
+        </details>
+        <details>
+            <summary>知识库与主站的关系？</summary>
+            <div class="answer">本页面定位为辅助性入口，帮助访客快速定位信息。主站功能与内容以 <a href="https://hthrc.com.cn">华体会</a> 实际发布为准，二者保持一致。</div>
+        </details>
+    </div>
+
+    <!-- footer -->
+    <div class="site-footer">
+        <p>内容索引基于 <a href="https://hthrc.com.cn">华体会</a> 公开信息整理 · 本页仅作介绍用途</p>
+    </div>
+
+</div>
+</body>
+</html>
